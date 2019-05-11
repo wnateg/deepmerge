@@ -32,10 +32,12 @@ function mergeObject(target, source, options) {
 		})
 	}
 	Object.keys(source).forEach(function(key) {
-		if (!options.isMergeableObject(source[key]) || !target[key]) {
-			destination[key] = cloneUnlessOtherwiseSpecified(source[key], options)
-		} else {
-			destination[key] = getMergeFunction(key, options)(target[key], source[key], options)
+		if (key in target) {
+			if (!options.isMergeableObject(source[key]) || !target[key]) {
+				destination[key] = cloneUnlessOtherwiseSpecified(source[key], options)
+			} else {
+				destination[key] = getMergeFunction(key, options)(target[key], source[key], options)
+			}
 		}
 	})
 	return destination
